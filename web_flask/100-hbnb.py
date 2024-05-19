@@ -3,7 +3,7 @@
 
 from flask import Flask, render_template
 from models import storage
-from models import State
+from models import State, Amenity, Place
 
 app = Flask(__name__)
 
@@ -15,13 +15,14 @@ def closedb(argument):
     storage.close()
 
 
-@app.route('/cities_by_states', strict_slashes=False)
-def states_list():
-    """/states_list route"""
+@app.route('/hbnb', strict_slashes=False)
+def hbnb_filters():
+    """/hbnb route"""
 
-    states = list(storage.all(State).values())
-    states.sort(key=lambda state: state.name)
-    return render_template('8-cities_by_states.html', states=states)
+    state = storage.all(State)
+    amenities = storage.all(Amenity)
+    place = storage.all(Place)
+    return render_template('100-hbnb.html', **locals())
 
 
 if __name__ == '__main__':
